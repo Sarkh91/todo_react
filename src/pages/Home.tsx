@@ -1,40 +1,30 @@
-import {useDispatch, useSelector} from "react-redux";
-import {rootState} from "../store";
-import {addTodo} from "../store/Todo";
-import {TodoItem, TodoItemStatus} from "../types";
-import {useRef} from "react";
+import {useSelector} from "react-redux";
+import {TodoItemStatus} from "types";
+import {TodoList, TodoInput} from "components";
+import {TodoState} from "store/Todo";
+import CONSTANT from "../constants";
 
 const Home = () => {
-    const todoList = useSelector((state: rootState) => state.todo.todoList)
-    const input = useRef<HTMLInputElement>(null)
-    const dispatch = useDispatch()
-
-    const onClickAddBtn = () => {
-        const {current} = input
-
-        if (current?.value) {
-            const newTodo: TodoItem = {
-                state: TodoItemStatus.CREATED,
-                title: current?.value || '',
-                content: ''
-            }
-
-            dispatch(addTodo(newTodo))
-            current.value = ''
-        }
-    }
+    const todoList = useSelector((state:TodoState) => state.todoList)
 
     return (
         <div className="container">
-            <input ref={input} type="text"/>
-            <button onClick={onClickAddBtn}>add</button>
-            <ul>
-                {todoList.map((todo, index) => (
-                    <li key={index}>
-                        {todo.title}
-                    </li>
-                )) }
-            </ul>
+            <TodoInput length={todoList.length}/>
+
+            <div className="todo-list-wrapper">
+                <div className="todo-list">
+                    <h1>{CONSTANT.TODO_STATUS[TodoItemStatus.CREATED]}</h1>
+                    <TodoList todoList={todoList.filter(todo => todo.state === TodoItemStatus.CREATED)}/>
+                </div>
+                <div className="todo-list">
+                    <h1>{CONSTANT.TODO_STATUS[TodoItemStatus.PROGRESSING]}</h1>
+                    <TodoList todoList={todoList.filter(todo => todo.state === TodoItemStatus.PROGRESSING)}/>
+                </div>
+                <div className="todo-list">
+                    <h1>{CONSTANT.TODO_STATUS[TodoItemStatus.DONE]}</h1>
+                    <TodoList todoList={todoList.filter(todo => todo.state === TodoItemStatus.DONE)}/>
+                </div>
+            </div>
         </div>
     )
 }

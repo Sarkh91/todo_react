@@ -1,8 +1,9 @@
-import {combineReducers, createStore} from "redux";
+import {applyMiddleware, createStore} from "redux";
 import todoReducer from "./Todo";
+import {createLogger} from 'redux-logger';
 
-const rootReducer = combineReducers({todo: todoReducer})
-const store = createStore(rootReducer)
+const reduxLogger = createLogger()
+
+const store = createStore(todoReducer, applyMiddleware(reduxLogger))
 
 export default store;
-export type rootState = ReturnType<typeof rootReducer>

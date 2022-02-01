@@ -1,7 +1,7 @@
 import {useRef} from "react";
 import {useDispatch} from "react-redux";
 import {TodoItem, TodoItemStatus} from "types";
-import {addTodo} from "store/Todo";
+import {addTodo} from "store/TodoReduxToolkit";
 import styled from "styled-components";
 import normalize from "styled-normalize";
 

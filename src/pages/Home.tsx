@@ -1,12 +1,13 @@
 import {useSelector} from "react-redux";
 import {TodoItemStatus} from "types";
 import {TodoList, TodoInput} from "components";
-import {TodoState} from "store/Todo";
+import {TodoState} from "store/TodoReduxToolkit";
 import CONSTANT from "../constants";
+import {todoSelector} from "store/TodoReduxToolkit";
+import {useEffect} from "react";
 
 const Home = () => {
-    const todoList = useSelector((state:TodoState) => state.todoList)
-
+    const todoList = useSelector(todoSelector);
     return (
         <div className="container">
             <TodoInput length={todoList.length}/>

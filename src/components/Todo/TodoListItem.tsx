@@ -3,8 +3,8 @@ import normalize from "styled-normalize";
 import {TodoItem, TodoItemStatus} from "types";
 import CONSTANT from "../../constants";
 import {useDispatch} from "react-redux";
-import {ChangeEvent, MouseEvent, useEffect, useRef, useState} from "react";
-import {changeTodoStatus, editTodo, removeTodo} from "store/Todo";
+import {ChangeEvent, useRef, useState} from "react";
+import {changeTodoStatus, editTodo, removeTodo} from "store/TodoReduxToolkit";
 
 const TodoListItemLi = styled.li`
   ${normalize}
@@ -91,14 +91,14 @@ const TodoListItem = ({todo}: { todo: TodoItem }) => {
     const onChangeSelect = (e: ChangeEvent<HTMLSelectElement>, id: number) => {
         if (e.target.value) {
             const status = Number(e.target.value) as TodoItemStatus
-            dispatch(changeTodoStatus(id, status));
+            dispatch(changeTodoStatus({id, status}));
         }
 
         e.target.value = ''
     }
 
     const onClickRemoveTodo = () => {
-        dispatch(removeTodo(todo.id))
+        dispatch(removeTodo({id:todo.id}))
     }
 
     const onClickIsEditBtn = () => {
@@ -110,7 +110,7 @@ const TodoListItem = ({todo}: { todo: TodoItem }) => {
                 return false;
             }
 
-            dispatch(editTodo(todo.id, {title: title || '', content: content || ''}))
+            dispatch(editTodo( {id:todo.id, title: title || '', content: content || ''}))
         }
 
         setIsEdit(!isEdit);
